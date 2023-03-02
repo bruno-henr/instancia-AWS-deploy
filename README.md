@@ -68,5 +68,17 @@ sudo apt-get update
 ```
 e por ultimo:
 ```sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin```
+Docker instalado!!!
+
+instalar docker compose agora:
+```
+curl -SL https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose 
+sudo apt install docker-compose
+```
+instalar YARN via npm:
+
+```sudo npm install --global yarn```
+```yarn -v```
+yarn instalado!
 
 
