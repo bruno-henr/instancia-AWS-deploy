@@ -81,4 +81,23 @@ instalar YARN via npm:
 ```yarn -v```
 yarn instalado!
 
+# Clonando projeto na VM
 
+```
+mkdir app
+cd app
+git clone <link-do-projeto>
+cd projeto
+yarn 
+yarn build 
+```
+
+Agora você deve configurar suas variaveis de sistemas necessarias para o projeto...
+
+# Aplique permissoes ao docker
+```
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
+Agora configure/crie seu container docker ou crie seu docker-compose para utilizar seu banco de dados desejado.
