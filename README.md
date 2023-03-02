@@ -101,3 +101,53 @@ sudo usermod -aG docker $USER
 ```
 
 Agora configure/crie seu container docker ou crie seu docker-compose para utilizar seu banco de dados desejado.
+
+# Configurando Github actions
+
+Vá até "settings" do projeto e depois ate "secrets" e set os seguintes valores:
+SSH_KEY -> sua chave ssh
+SSH_HOST -> host da sua instancia EC2
+SSH_PORT -> porta da sua instancia (padrao 22)
+SSH_USER -> seu usuario na instancia
+
+Acesse "actions" e vá até "set up a workflow yourself"
+
+Utilize esse padrao:
+
+```
+name: CI
+
+on: 
+  push:
+    branches: [master]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        run: yarn 
+        
+      - name: Build
+        run: yarn build
+      
+      # Utilizando o github scp actions para copiar os dados para nossa instancia
+      - uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          # o "!+nomedoarquivo" é utilizado para ignorar arquivo na hora de copiar 
+          source: "., !node_modules"
+          # pasta pra onde os arquivos serao copiados
+          target: "~/app/pasta-do-projeto"
+```
