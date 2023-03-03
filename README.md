@@ -151,3 +151,64 @@ jobs:
           # pasta pra onde os arquivos serao copiados
           target: "~/app/pasta-do-projeto"
 ```
+
+# instalando PM2 para gerenciar processos 
+
+```
+yarn add pm2 -g
+```
+Como criar serviço?
+```
+pm2 start ./your_path/.../.js --name process_name_here
+```
+
+Adicionar ao actions
+```
+...
+...
+- name: Update API
+        uses: appleboy/ssh-action@master
+        with: 
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/app/pasta-do-projeto
+            yarn
+            yarn prisma migrate deploy 
+            pm2 restart "process_name_here"
+```
+
+# Configurando dominio e DNS
+
+Acessar painel do Route 53 na AWS, ir ate "zona hospedada" -> "criar zona hospedada" e preenche o formulario e cria sua zona
+Entre na sua zona recem criada -> "Criar registro" e preenche o subdominio e ip da instancia e cria o registro
+e com esse registro criado, deve-se acessar o seu painel do dominio, procura pela aba de DNS e adiciona o registro com o subdominio, tipo A de alias e endereço de ipv4
+
+# Adicionar certificado HTTPS a nossa API com certBot
+
+seguir tutorial: https://certbot.eff.org/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
